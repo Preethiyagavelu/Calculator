@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/simple_calculator"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_margin="50dp"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/number1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="@string/enter_number"
+        android:inputType="number"
+        android:textColorHint="#546E7A"
+        tools:ignore="Autofill,DuplicateSpeakableTextCheck,TextFields,TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+    <EditText
+        android:id="@+id/number2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/enter_number"
+        android:inputType="number"
+        tools:ignore="Autofill,TextContrastCheck,TextFields,TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="UselessLeaf">
+
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text="@string/add"
+            android:textSize="30sp"
+            tools:ignore="ButtonStyle,VisualLintButtonSize" />
+
+        <Button
+            android:id="@+id/btn_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text="@string/sub"
+            android:textSize="30sp"
+            tools:ignore="ButtonStyle,VisualLintButtonSize" />
+
+        <Button
+            android:id="@+id/btn_mul"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text="@string/x"
+            android:textSize="30sp"
+            tools:ignore="ButtonStyle,VisualLintButtonSize" />
+
+    <Button
+        android:id="@+id/btn_div"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:text="@string/div"
+        android:textSize="30sp"
+        tools:ignore="ButtonStyle,VisualLintButtonSize" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/answer"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>
+
+
+
+
+
+package com.example.calculator;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private EditText number1EditText, number2EditText;
+    private TextView resultTextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        number1EditText = findViewById(R.id.number1);
+        number2EditText = findViewById(R.id.number2);
+        resultTextView = findViewById(R.id.answer);
+
+        Button addButton = findViewById(R.id.btn_add);
+        Button subButton = findViewById(R.id.btn_sub);
+        Button mulButton = findViewById(R.id.btn_mul);
+        Button divButton = findViewById(R.id.btn_div);
+
+        addButton.setOnClickListener(v -> calculate('+'));
+
+        subButton.setOnClickListener(v -> calculate('-'));
+
+        mulButton.setOnClickListener(v -> calculate('*'));
+
+        divButton.setOnClickListener(v -> calculate('/'));
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void calculate(char operator) {
+        double number1 = Double.parseDouble(number1EditText.getText().toString());
+        double number2 = Double.parseDouble(number2EditText.getText().toString());
+        double result = 0;
+
+        switch (operator) {
+            case '+':
+                result = number1 + number2;
+                break;
+            case '-':
+                result = number1 - number2;
+                break;
+            case '*':
+                result = number1 * number2;
+                break;
+            case '/':
+                if (number2 != 0) {
+                    result = number1 / number2;
+                } else {
+                    resultTextView.setText("Cannot divide by zero!");
+                    return;
+                }
+                break;
+        }
+
+        resultTextView.setText(String.valueOf(result));
+    }
+}
+
+
